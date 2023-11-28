@@ -2,6 +2,7 @@ import express from "express";
 const app = express();
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
 // Middleware to parse JSON data in the request body
 app.use(express.json());
@@ -17,8 +18,10 @@ app.use(
   })
 );
 
+app.use(morgan("dev"));
+
 app.use("/ping", (req, res) => {
-  res.send("/pong");
+  res.send("Pong");
 });
 
 app.all("*", (req, res) => {

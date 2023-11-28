@@ -64,3 +64,37 @@ process.exit(0);
 -> The callback passed to server.close() is executed when all connections are closed, and it prints a message to the console before exiting the process with process.exit(0).
 
 This ensures that the server shuts down gracefully when you manually stop it.
+
+---
+
+## Morgan
+
+app.use(morgan("dev")); is a configuration for the Morgan middleware in a Node.js and Express.js application.
+
+Here's what's happening in this line:
+
+morgan Middleware:
+
+morgan is a popular HTTP request logger middleware for Node.js.
+It helps in logging information about incoming requests such as the HTTP method, status code, response time, and more.
+"dev" Parameter:
+
+The parameter "dev" is one of the predefined log formats provided by Morgan.
+When you use "dev", Morgan will log concise output that includes the HTTP method, status code, response time, and the URL.
+app.use() Middleware Registration:
+
+app.use() is used to mount middleware functions in the Express application's request-handling pipeline.
+In this case, it's used to integrate Morgan into the middleware stack, so it logs information for every incoming request.
+Here's a simple example of what the output might look like when using the "dev" format:
+
+plaintext
+Copy code
+GET /users 200 5.123 ms - 32
+Breaking down the components of the output:
+
+GET /users: HTTP method and URL of the incoming request.
+200: HTTP status code of the response.
+5.123 ms: Response time in milliseconds.
+
+- 32: The size of the response body in bytes. In this case, it might be the content length.
+  This logging is helpful for development and debugging purposes, providing insight into the flow and performance of your application. However, in a production environment, you might consider using a more concise log format or turning off request logging altogether for security and performance reasons.
