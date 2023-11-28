@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 // Middleware to parse JSON data in the request body
 app.use(express.json());
@@ -25,4 +25,4 @@ app.all("*", (req, res) => {
   res.status(404).send("OOPs!! 404 Page not found! ");
 });
 
-module.exports = app;
+export default app;
