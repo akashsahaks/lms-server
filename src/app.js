@@ -3,6 +3,7 @@ const app = express();
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import errorMiddleware from "./middlewares/error.middleware.js";
 
 // importing routes
 import { userRouter } from "./routes/index.js";
@@ -33,5 +34,8 @@ app.use("/api/v1/user", userRouter);
 app.all("*", (req, res) => {
   res.status(404).send("OOPs!! 404 Page not found! ");
 });
+
+// Error middlware handles all error
+app.use(errorMiddleware);
 
 export default app;
