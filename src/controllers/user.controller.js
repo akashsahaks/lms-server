@@ -38,10 +38,11 @@ export const register = async (req, res, next) => {
       fullName,
       email,
       password,
+
       avatar: {
+        // initially putting email as default value so it doesn't throw error becase we are handling file after user creation
         public_id: email,
-        secure_url:
-          "https://assets-global.website-files.com/619e8d2e8bd4838a9340a810/647c1064ebf1c6171bfd3a87_profile-picture-feature-1.webp",
+        secure_url: email,
       },
     });
 
@@ -53,7 +54,7 @@ export const register = async (req, res, next) => {
     }
 
     // File upload
-    console.log("File Detials > ", req.file);
+    // console.log("File Detials > ", req.file);
     if (req.file) {
       try {
         const result = await cloudinary.v2.uploader.upload(req.file.path, {
