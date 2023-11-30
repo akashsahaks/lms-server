@@ -2,6 +2,8 @@ import emailValidator from "email-validator";
 import AppError from "../utils/error.util.js";
 import { User } from "../models/index.js";
 import bcrypt from "bcrypt";
+import cloudinary from "cloudinary";
+import fs from "fs/promises";
 
 const cookieOptions = {
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -50,7 +52,31 @@ export const register = async (req, res, next) => {
       );
     }
 
-    //TODO: File upload
+    // File upload
+    console.log("File Detials > ", req.file);
+    if (req.file) {
+      try {
+        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+          folder: "lms",
+          width: 250,
+          height: 250,
+          gravity: "faces",
+          crop: "fill",
+        });
+        if (result) {
+          (user.avatar.public_id = result.public_id),
+            (user.avatar.secure_url = result.secure_url);
+
+          // Remove file from server
+          fs.rm(`uploads/${req.file.filename}`);
+        }
+      } catch (error) {
+        return next(
+          new AppError(error || "File not uploaded, please try again", 500)
+        );
+      }
+    }
+
     await user.save();
     user.password = undefined;
 
