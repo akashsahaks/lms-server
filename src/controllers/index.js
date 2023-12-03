@@ -1,3 +1,21 @@
-import { register, login, logout, getProfile } from "./user.controller.js";
+import {
+  register,
+  login,
+  logout,
+  getProfile,
+  forgotPassword,
+  resetPassword,
+  changePassword,
+  updateUser,
+} from "./user.controller.js";
 
-export { register, login, logout, getProfile };
+export {
+  register,
+  login,
+  logout,
+  getProfile,
+  forgotPassword,
+  resetPassword,
+  changePassword,
+  updateUser,
+};

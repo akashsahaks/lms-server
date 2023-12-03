@@ -1,13 +1,14 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 const userSchema = new Schema(
   {
     fullName: {
       type: String,
       required: [true, "Full name is required"],
-      minLength: [5, "Name must be at least 5 characters"],
+      minLength: [3, "Name must be at least 5 characters"],
       maxLength: [50, "Name should be less than 50 characters"],
       trim: true,
     },
@@ -59,8 +60,9 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-// creating methods to generating token
+// defining methods
 userSchema.methods = {
+  // generating jwtToken
   jwtToken: async function () {
     return await jwt.sign(
       {
@@ -72,7 +74,19 @@ userSchema.methods = {
       { expiresIn: process.env.JWT_EXPIRY }
     );
   },
+
+  // generating reset password token
+  generatePasswordResetToken: async function () {
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    (this.forgotPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex")),
+      (this.forgotPasswordExpiry = Date.now() + 15 * 60 * 1000); // 15min from now
+    return resetToken;
+  },
 };
+
 const User = model("user", userSchema);
 
 export default User;
