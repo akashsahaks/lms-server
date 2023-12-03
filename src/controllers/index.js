@@ -9,6 +9,8 @@ import {
   updateUser,
 } from "./user.controller.js";
 
+import { getAllCourses, getLecturesByCourseId } from "./course.controller.js";
+
 export {
   register,
   login,
@@ -18,4 +20,6 @@ export {
   resetPassword,
   changePassword,
   updateUser,
+  getAllCourses,
+  getLecturesByCourseId,
 };

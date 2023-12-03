@@ -6,7 +6,7 @@ import morgan from "morgan";
 import errorMiddleware from "./middlewares/error.middleware.js";
 
 // importing routes
-import { userRouter } from "./routes/index.js";
+import { courseRouter, userRouter } from "./routes/index.js";
 
 // Middleware to parse JSON data in the request body
 app.use(express.json());
@@ -29,7 +29,11 @@ app.use("/ping", (req, res) => {
   res.send("Pong");
 });
 
+// user routes
 app.use("/api/v1/user", userRouter);
+
+// course routes
+app.use("/api/v1/course", courseRouter);
 
 app.all("*", (req, res) => {
   res.status(404).send("OOPs!! 404 Page not found! ");
